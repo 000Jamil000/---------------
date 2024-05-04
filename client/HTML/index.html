@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../CSS/withdrawalTickets.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="../JavaScript/index.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logoAndNameCompany">
+          <img src="./assets/logo.png" alt="Sorry" class="logo" />
+          <p>GoodBye</p>
+        </div>
+        <div class="icon_profile">
+          <img src="./assets/profile.png" alt="" class="icon_profile" />
+        </div>
+      </div>
+      <div class="slogan">
+        <h1>Поиск авиабилетов</h1>
+        <p>Легкий способ найти авиабилеты</p>
+      </div>
+      <div class="main">
+        <div class="searchTicket">
+          <form action="#">
+            <div class="input-group">
+              <input
+                type="text"
+                id="cityFrom"
+                name="departure"
+                placeholder="Казань"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="destination"
+                name="destination"
+                placeholder="Москва"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="departureDate"
+                name="departureDate"
+                placeholder="Выберите дату"
+                data-input
+                required
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                id="arrivalDate"
+                name="returnDate"
+                placeholder="Выберите дату"
+                data-input
+                required
+              />
+            </div>
+          </form>
+
+          <div class="BtnSearch">
+            <button type="submit" class="BtnSearchTicket" id="BtnSearchTicket">
+              Найти билеты
+            </button>
+          </div>
+        </div>
+        <div id="ticketList"></div>
+      </div>
+      <div class="footer">
+        <!-- <img src="./assets/the wing of the aircraft.png" alt="" /> -->
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </body>
+</html>
