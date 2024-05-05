@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #d4eefa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  height: 100vh;
+  width: 60%;
+  display: flex;
+}
+
+.left-column {
+  flex-grow: 1;
+}
+
+.logoAndNameCompany {
+  display: flex;
+  align-items: center;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.logoAndNameCompany p {
+  font-size: 30px;
+  font-family: "Sofia Sans", sans-serif;
+  color: #3357b4;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.profile-container {
+  background: #3560cc;
+  padding: 75px 77px 33px 77px;
+  border-radius: 30px;
+  color: #ffffff;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input::placeholder {
+  color: #cccccc;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #ffffff;
+  margin: 20px 0;
+}
+
+.inputDataAboutPerson {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.name,
+.lastname {
+  width: 48%;
+}
+
+.inputDataAboutPerson input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  background-color: #3560cc;
+  color: #fff;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.inputDataAboutPerson1 {
+  all: initial;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.inputDataAboutPerson1 label {
+  margin-bottom: 5px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.inputDataAboutPerson1 input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  background: #3560cc;
+  color: #fff;
+  padding: 5px;
+  font-size: 18px;
+}
+
+.inputDataAboutPerson1 input:focus {
+  outline: none;
+}
+
+.inputDataAboutPerson input:focus {
+  outline: none;
+}
+
+h3 {
+  margin-bottom: 23px;
+  margin-top: 37px;
+}
+
+.seriesPassport,
+.numberPassport,
+.issuedBy,
+.departmentCode {
+  width: 48%;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 500;
+}
+
+.footer button {
+  width: 18%;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  border: 2px solid #ffffff;
+}
+
+.saveData {
+  color: #3560cc;
+}
+
+.cancel {
+  background: #3560cc;
+  color: #fff;
+}
+
+.cancel:hover {
+  transition: 0.5s;
+  background-color: #ffffff;
+  color: #3560cc;
+}
+
+.saveData:hover {
+  transition: 0.5s;
+  background-color: #3560cc;
+  color: #ffffff;
+}
+
+.right-column {
+  width: 360px;
+  height: 137px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+  top: 25%;
+}
+
+.menu-container {
+  width: 300px;
+  border-radius: 30px;
+  border: 2px solid #3560cc;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: absolute;
+  top: 120px;
+}
+
+.profileBtn,
+.settingsBtn {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: #d4eefa;
+  color: #3560cc;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.settingsBtn img {
+  margin-right: 20px;
+  margin-left: 5px;
+}
+
+.profileBtn img {
+  margin-right: 20px;
+  margin-left: 5px;
+}
+
+.profileBtn:hover,
+.settingsBtn:hover {
+  background-color: #ffffff;
+}
+
+.footerImg {
+  position: fixed;
+  bottom: 0;
+  right: 10%;
+  width: 30%;
+  height: auto;
+}
+
+.footerImg img {
+  width: 80%;
+  height: auto;
+  vertical-align: bottom;
+}
