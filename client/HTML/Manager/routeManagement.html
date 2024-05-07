@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../CSS/Profile.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="../../JavaScript/manager.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-column">
+        <div class="logoAndNameCompany">
+          <img src="../assets/logo.png" alt="Sorry" class="logo" />
+          <a href="../index.html">GoodBye</a>
+        </div>
+        <div class="profile-container">
+          <div class="header">
+            <h1>Управление маршрутами</h1>
+          </div>
+          <hr />
+          <div class="main">
+            <form action="">
+              <div class="inputDataAboutPerson">
+                <div class="name">
+                  <label for="">Откуда</label>
+                  <input type="text" placeholder="Казань" />
+                </div>
+                <div class="lastname">
+                  <label for="">Куда</label>
+                  <input type="text" placeholder="Москва" />
+                </div>
+              </div>
+
+              <div class="inputDataAboutPerson1">
+                <label for="">Дата</label>
+                <input type="date" data-input />
+              </div>
+              <div class="inputDataAboutPerson1">
+                <label for="">Время</label>
+                <input type="time" />
+              </div>
+            </form>
+          </div>
+          <div class="footer">
+            <button class="cancel">Добавить рейс</button>
+            <button class="saveData">Удалить рейс</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-column">
+        <div class="menu-container">
+          <div>
+            <button class="profileBtn" id="profileBtn">
+              <img src="../assets/profile_icon.svg" alt="" />
+              Профиль
+            </button>
+          </div>
+          <div>
+            <button class="settingsBtn" id="settingsBtn">
+              <img src="../assets/setting_icon.svg" alt="" />
+              Управление маршрутами
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="footerImg">
+        <img src="../assets/Pilot(1).png" alt="" title="" />
+      </div>
+    </div>
+  </body>
+</html>

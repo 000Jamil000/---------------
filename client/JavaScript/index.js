@@ -9,27 +9,6 @@ flatpickr("#arrivalDate", {
 
 const ticketList = document.getElementById("ticketList");
 
-fetch()
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Ошибка загрузки данных о билетах");
-    }
-    return response.json();
-  })
-  .then((tickets) => {
-    const ticketElement = document.createElement("div");
-    ticketElement.classList.add("ticket");
-
-    ticketElement.innerHTML = `
-          <div class="direction">${ticket.cityOf}</div>
-          <div class="direction">${ticket.cityTo}</div>
-          <div class="date">${ticket.departureDate}</div>
-          <div class="time">${ticket.departureTime}</div>
-          <button class="buy-button">Купить</button>
-      `;
-
-    ticketList.appendChild(ticketElement);
-  })
-  .catch((error) => {
-    console.error("Произошла ошибка:", error);
-  });
+function redirectToProfile() {
+  window.location.href = "http://127.0.0.1:5501/client/HTML/profilePerson.html";
+}

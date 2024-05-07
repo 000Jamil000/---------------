@@ -32,8 +32,10 @@ body {
   margin-bottom: 20px;
 }
 
-.logoAndNameCompany p {
-  font-size: 30px;
+.logoAndNameCompany a {
+  font-weight: lighter;
+  text-decoration: none;
+  font-size: 25px;
   font-family: "Sofia Sans", sans-serif;
   color: #3357b4;
 }

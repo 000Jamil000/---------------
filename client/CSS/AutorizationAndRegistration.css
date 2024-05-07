@@ -20,7 +20,6 @@ body {
   display: grid;
   grid-template-columns: 65% 35%;
   font-family: "Poppins", sans-serif;
-  border: 3px solid rebeccapurple;
 }
 
 .airplane-image img {
@@ -28,12 +27,24 @@ body {
   height: 100vh;
 }
 
-.windowRegistration {
+.right-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
   border: 8px solid #3357b4;
   border-radius: 61px;
-  height: 75%;
   padding: 40px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  right: 10%;
+  width: 25%;
+  top: 10%;
+}
+
+.windowRegistration {
+  max-width: 400px; /* Определяем максимальную ширину меню */
+  width: 100%;
 }
 
 .header {
@@ -58,11 +69,12 @@ body {
 
 .inputDataPerson input {
   width: 100%;
-  height: 56px;
-  border-radius: 12px;
-  border: 1px solid #666666;
-  background: #ecf9ff;
-  padding: 10px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #3560cc;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px;
   font-size: 18px;
 }
 
@@ -86,7 +98,7 @@ body {
   height: 56px;
   border-radius: 40px;
   border: 1px solid #666666;
-  background: #ecf9ff;
+  background: #ffffff;
   font-size: 22px;
   display: flex;
   justify-content: center;
@@ -112,5 +124,5 @@ body {
 }
 
 .createAccount:hover {
-  background-color: #4561ff;
+  background-color: #001ec7;
 }
