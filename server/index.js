@@ -1,14 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = require("./routes/UserRouter");
-const User = require("./routes/UserRouter");
+const createUser = require("./routes/UserRouter");
+const Passenger = require("./models/Passenger");
+const Flight = require("./models/Flight");
+const Ticket = require("./models/Ticket");
+const Booking = require("./models/Booking");
+const User = require("./models/User");
+const Passport = require("./models/PassportData");
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
 app.use(express.json());
-app.use(User);
+app.use(createUser);
 
 app.use("/api", router);
 
