@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="../../CSS/Profile.css" />
-    <script src="../../JavaScript/manager.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="../../JavaScript/admin.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -16,35 +20,20 @@
         </div>
         <div class="profile-container">
           <div class="header">
-            <h1>Профиль</h1>
+            <h1>Настройки доступа</h1>
           </div>
           <hr />
           <div class="main">
             <form action="">
-              <div class="inputDataAboutPerson">
-                <div class="name">
-                  <label for="">Имя</label>
-                  <input type="text" placeholder="Иван" />
-                </div>
-                <div class="lastname">
-                  <label for="">Фамилия</label>
-                  <input type="text" placeholder="Иванов" />
-                </div>
-              </div>
-
               <div class="inputDataAboutPerson1">
-                <label for="">Отчество</label>
-                <input type="text" placeholder="Иванович" />
-              </div>
-              <div class="inputDataAboutPerson1">
-                <label for="">Должность</label>
+                <label for="">Введите ФИО менеджера</label>
                 <input type="text" />
               </div>
             </form>
           </div>
           <div class="footer">
-            <button class="cancel">Отмена</button>
-            <button class="saveData">Сохранить</button>
+            <button class="cancel">Дать доступ</button>
+            <button class="saveData">Удалить менеджера</button>
           </div>
         </div>
       </div>
@@ -59,7 +48,7 @@
           <div>
             <button class="settingsBtn" id="settingsBtn">
               <img src="../assets/setting_icon.svg" alt="" />
-              Управление маршрутами
+              Настройки доступа
             </button>
           </div>
         </div>
