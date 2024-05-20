@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const TicketSchema = new mongoose.Schema(
   {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false, // Можно изменить на true, если требуется
-    },
     flightId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Flight",
@@ -14,7 +10,6 @@ const TicketSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     seatNumber: {
       type: String,
@@ -26,14 +21,19 @@ const TicketSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Booked", "Cancelled", "Bought"],
-      required: true,
+      enum: ["WAITING", "CANCELLED", "BOUGHT"],
+      default: "WAITING",
     },
   },
   {
     timestamps: true,
   }
 );
+
+TicketSchema.pre("remove", async function (next) {
+  await mongoose.model("Flight").findByIdAndDelete(this.flightId);
+  next();
+});
 
 const Ticket = mongoose.model("Ticket", TicketSchema);
 module.exports = Ticket;
