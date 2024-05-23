@@ -9,12 +9,13 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="../CSS/AutorizationAndRegistration.css" />
+    <script src="../JavaScript/registration.js" defer></script>
   </head>
   <body>
     <div class="container">
       <div class="left-column">
         <div class="airplane-image">
-          <img src="./assets/airplane2.png" alt="" />
+          <img src="./assets/airplane2.png" alt="Airplane" />
         </div>
       </div>
       <div class="right-column">
@@ -23,24 +24,45 @@
             <div class="header">
               <h3>Регистрация</h3>
               <p>
-                Уже зарегистрированы? <a href="./Autorization.html">Войти </a>
+                Уже зарегистрированы? <a href="./Autorization.html">Войти</a>
               </p>
             </div>
             <div class="main">
-              <form action="">
+              <form id="registrationForm">
                 <div class="inputDataPerson">
-                  <label>Ваш email</label>
-                  <input type="text" class="email" />
+                  <label for="email">Ваш email</label>
+                  <input type="email" id="email" required />
                 </div>
                 <div class="inputDataPerson">
-                  <label>Пароль</label>
-                  <input type="text" class="password" />
+                  <label for="passwordOne">Пароль</label>
+                  <input
+                    type="password"
+                    id="passwordOne"
+                    class="password"
+                    required
+                  />
+                  <a
+                    href="#"
+                    class="password-control"
+                    onclick="return show_hide_password(this, 'passwordOne');"
+                  ></a>
                 </div>
                 <div class="inputDataPerson">
-                  <label>Повторите пароль</label>
-                  <input type="text" class="password" />
+                  <label for="passwordTwo">Повторите пароль</label>
+                  <input
+                    type="password"
+                    id="passwordTwo"
+                    class="password"
+                    required
+                  />
+                  <a
+                    href="#"
+                    class="password-control"
+                    onclick="return show_hide_password(this, 'passwordTwo');"
+                  ></a>
                 </div>
               </form>
+              <div id="errorMessage"></div>
             </div>
             <div class="beforeFooter">
               <hr />
@@ -54,11 +76,12 @@
                     src="./assets/Google_logo.png"
                     alt="Google"
                     class="googleLogo"
-                  />Войти через GOOGLE
+                  />
+                  Войти через GOOGLE
                 </button>
               </div>
               <div class="btn">
-                <button class="createAccount" disabled>
+                <button type="submit" class="createAccount" id="registerButton">
                   Зарегистрироваться
                 </button>
               </div>

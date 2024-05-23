@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const PassportSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId, // Уникальный идентификатор пасспорта
   passengerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Passenger",

@@ -133,6 +133,11 @@ button {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.BtnSearch button:hover {
+  color: #0b499bd7;
 }
 .footer img {
   position: absolute;
@@ -142,4 +147,51 @@ button {
   /* grid-template-rows: 1fr 1fr; */
   align-self: start;
   align-items: start;
+}
+
+#ticketList {
+  width: 80%;
+  height: 15%;
+  margin-left: 89px;
+}
+
+.ticket {
+  background-color: #3357b4;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+
+.ticket p {
+  margin: 5px 0;
+}
+
+.ticket .ticket-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket .ticket-details div {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket .price-and-buy {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ticket .price-and-buy button {
+  margin-top: 10px;
+  width: 150px;
 }

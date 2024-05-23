@@ -10,6 +10,7 @@
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
     <script src="../JavaScript/index.js" defer></script>
+    <script src="../JavaScript/checkAutorization.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -18,7 +19,7 @@
           <img src="./assets/logo.png" alt="Sorry" class="logo" />
           <p>GoodBye</p>
         </div>
-        <div class="icon_profile" onclick="redirectToProfile()">
+        <div class="icon_profile" id="redirectToProfile">
           <img src="./assets/profile.png" alt="" class="icon_profile" />
         </div>
       </div>
@@ -28,7 +29,7 @@
       </div>
       <div class="main">
         <div class="searchTicket">
-          <form action="#">
+          <form id="searchForm">
             <div class="input-group">
               <input
                 type="text"
@@ -67,13 +68,16 @@
                 required
               />
             </div>
+            <div class="BtnSearch">
+              <button
+                type="submit"
+                class="BtnSearchTicket"
+                id="BtnSearchTicket"
+              >
+                Найти билеты
+              </button>
+            </div>
           </form>
-
-          <div class="BtnSearch">
-            <button type="submit" class="BtnSearchTicket" id="BtnSearchTicket">
-              Найти билеты
-            </button>
-          </div>
         </div>
         <div id="ticketList"></div>
       </div>
