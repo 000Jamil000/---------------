@@ -78,6 +78,10 @@ hr {
   width: 48%;
 }
 
+.arrivalDate,
+.departureDate {
+  width: 48%;
+}
 .inputDataAboutPerson input {
   width: 100%;
   height: 40px;

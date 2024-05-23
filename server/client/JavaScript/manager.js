@@ -14,11 +14,15 @@ function redirectToRouteManagement() {
 profileBtn.addEventListener("click", redirectToProfileManager);
 settingsBtn.addEventListener("click", redirectToRouteManagement);
 
-flatpickr("#departureDate", {
+const departureDate = flatpickr("#departureDate", {
   dateFormat: "Y-m-d",
   minDate: "today",
+  onChange: function (selectedDates, dateStr, instance) {
+    arrivalDate.set("minDate", dateStr);
+  },
 });
-flatpickr("#arrivalDate", {
+
+const arrivalDate = flatpickr("#arrivalDate", {
   dateFormat: "Y-m-d",
   minDate: "today",
 });

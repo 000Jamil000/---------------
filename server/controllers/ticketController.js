@@ -9,7 +9,6 @@ class ticketController {
       arrivalCity,
       departureDate,
       departureTime,
-      arrivalDate,
       arrivalTime,
       flightNumber,
       serviceClass,
@@ -23,7 +22,6 @@ class ticketController {
       !arrivalCity ||
       !departureDate ||
       !departureTime ||
-      !arrivalDate ||
       !arrivalTime ||
       !flightNumber ||
       !serviceClass ||
@@ -40,7 +38,6 @@ class ticketController {
         arrivalCity,
         departureDate,
         departureTime,
-        arrivalDate,
         arrivalTime,
         flightNumber,
         serviceClass,
@@ -52,7 +49,6 @@ class ticketController {
           arrivalCity,
           departureDate,
           departureTime,
-          arrivalDate,
           arrivalTime,
           flightNumber,
           serviceClass,
@@ -124,7 +120,7 @@ class ticketController {
         const ticket = await Ticket.findOne({ flightId: flight._id }).populate({
           path: "flightId",
           select:
-            "departureCity arrivalCity departureDate departureTime arrivalDate arrivalTime serviceClass",
+            "departureCity arrivalCity departureDate departureTime  arrivalTime serviceClass",
         });
         if (ticket) {
           tickets.push(ticket);
@@ -135,7 +131,7 @@ class ticketController {
         const ticket = await Ticket.findOne({ flightId: flight._id }).populate({
           path: "flightId",
           select:
-            "departureCity arrivalCity departureDate departureTime arrivalDate arrivalTime serviceClass",
+            "departureCity arrivalCity departureDate departureTime  arrivalTime serviceClass",
         });
         if (ticket) {
           tickets.push(ticket);
@@ -155,7 +151,6 @@ class ticketController {
       arrivalCity,
       departureDate,
       departureTime,
-      arrivalDate,
       arrivalTime,
       flightNumber,
       serviceClass,
@@ -169,7 +164,6 @@ class ticketController {
         arrivalCity,
         departureDate,
         departureTime,
-        arrivalDate,
         arrivalTime,
         flightNumber,
         serviceClass,
@@ -208,7 +202,7 @@ class ticketController {
   async dropdownListOfTickets(req, res, next) {
     try {
       const flights = await Flight.find().select(
-        "departureCity arrivalCity departureDate departureTime arrivalDate arrivalTime serviceClass"
+        "departureCity arrivalCity departureDate departureTime  arrivalTime serviceClass"
       );
       res.json({ flights });
     } catch (error) {

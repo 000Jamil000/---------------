@@ -36,13 +36,39 @@
                 </div>
               </div>
 
-              <div class="inputDataAboutPerson1">
-                <label for="">Дата</label>
-                <input type="date" data-input />
+              <div class="inputDataAboutPerson">
+                <div class="departureDate">
+                  <label for="">Дата вылета</label>
+                  <input
+                    type="text"
+                    id="departureDate"
+                    name="returnDate"
+                    placeholder="Выберите дату"
+                    data-input
+                    required
+                  />
+                </div>
+                <div class="arrivalDate">
+                  <label for="">Дата посадки </label>
+                  <input
+                    type="text"
+                    id="arrivalDate"
+                    name="returnDate"
+                    placeholder="Выберите дату"
+                    data-input
+                    required
+                  />
+                </div>
               </div>
-              <div class="inputDataAboutPerson1">
-                <label for="">Время</label>
-                <input type="time" />
+              <div class="inputDataAboutPerson">
+                <div class="name">
+                  <label for="">Время вылета</label>
+                  <input type="time" />
+                </div>
+                <div class="lastname">
+                  <label for="">Время посадки</label>
+                  <input type="time" />
+                </div>
               </div>
             </form>
           </div>
@@ -72,5 +98,6 @@
         <img src="../assets/Pilot(1).png" alt="" title="" />
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </body>
 </html>
