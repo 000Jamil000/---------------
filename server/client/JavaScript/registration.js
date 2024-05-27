@@ -43,22 +43,22 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         if (response.ok) {
-          // Регистрация успешна
           window.location.href = "http://localhost:5000/HTML/index.html";
+
+          const data = await response.json();
+          localStorage.setItem("token", data.token);
+          console.log("Token saved:", localStorage.getItem("token"));
         } else {
-          // Обработка ошибки при регистрации
           const errorMessage = document.getElementById("errorMessage");
           errorMessage.textContent = "Ошибка при регистрации";
         }
       } catch (error) {
-        // Обработка ошибок сети или других ошибок
         console.error("Произошла ошибка:", error);
         const errorMessage = document.getElementById("errorMessage");
         errorMessage.textContent = "Произошла ошибка. Попробуйте позже.";
       }
     });
 
-    // Активация кнопки при совпадении паролей
     document.addEventListener("input", function () {
       const passwordOne = document.getElementById("passwordOne").value;
       const passwordTwo = document.getElementById("passwordTwo").value;

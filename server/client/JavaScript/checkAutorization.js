@@ -1,24 +1,26 @@
 const redirectToProfile = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/user/check", {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("No token found");
+    }
+
+    const response = await fetch("http://localhost:5000/api/user/auth", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Предположим, что вы используете localStorage для хранения токена
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
+    const data = await response.json();
 
     if (response.ok) {
-      // Пользователь авторизован, перенаправляем на страницу профиля
-      window.location.href = "http://localhost:5000/HTML/profilePerson.html";
+      window.location.href = data.redirectUrl;
     } else {
-      // Пользователь не авторизован, перенаправляем на страницу входа
       window.location.href = "http://localhost:5000/HTML/Autorization.html";
     }
   } catch (error) {
     console.error("Произошла ошибка:", error);
-    // Если произошла ошибка при запросе, перенаправляем на страницу входа
     window.location.href = "http://localhost:5000/HTML/Autorization.html";
   }
 };

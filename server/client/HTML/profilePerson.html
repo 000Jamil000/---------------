@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="../CSS/Profile.css" />
+    <script src="../JavaScript/profile.js" defer></script>
   </head>
   <body>
     <div class="container">
       <div class="left-column">
         <div class="logoAndNameCompany">
           <img src="./assets/logo.png" alt="Sorry" class="logo" />
-          <a href="../index.html">GoodBye</a>
+          <a href="http://localhost:5000/HTML/index.html">GoodBye</a>
         </div>
         <div class="profile-container">
           <div class="header">
@@ -35,7 +36,6 @@
                   />
                 </div>
               </div>
-
               <div class="inputDataAboutPerson1">
                 <label for="lastName">Отчество</label>
                 <input
@@ -48,6 +48,10 @@
               <div class="inputDataAboutPerson1">
                 <label for="email">EMAIL</label>
                 <input type="email" id="email" required />
+              </div>
+              <div class="inputDataAboutPerson1">
+                <label for="email">Год рождения</label>
+                <input type="date" id="dateOfBirth" required />
               </div>
               <h3>Паспортные данные</h3>
               <div class="inputDataAboutPerson">
@@ -81,7 +85,7 @@
                 </div>
               </div>
               <div class="footer">
-                <button class="saveData" disabled>Сохранить</button>
+                <button type="submit" class="saveData">Сохранить</button>
               </div>
             </form>
           </div>
@@ -96,9 +100,15 @@
             </button>
           </div>
           <div>
-            <button class="settingsBtn">
-              <img src="./assets/setting_icon.svg" alt="" />
-              Настройки
+            <button class="deleteBtn">
+              <img src="./assets/exit.png" alt="" />
+              Выйти из аккаунта
+            </button>
+          </div>
+          <div>
+            <button class="deleteBtn">
+              <img src="./assets/delete.svg" alt="" />
+              Удалить аккаунт
             </button>
           </div>
         </div>
@@ -107,5 +117,6 @@
         <img src="./assets/Pilot(1).png" alt="" title="" />
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </body>
 </html>
