@@ -17,6 +17,11 @@ const ProfileSchema = new mongoose.Schema(
       ref: "Passport",
       required: false,
     },
+    ManagerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Manager",
+      required: false,
+    },
   },
   {
     timestamps: true,

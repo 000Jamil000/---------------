@@ -2,6 +2,8 @@ require("dotenv").config();
 const User = require("../models/User");
 const Profile = require("../models/Profile");
 const Passenger = require("../models/Passenger");
+const Managers = require("../models/Managers");
+
 const PassportData = require("../models/PassportData");
 
 const ApiError = require("../error/ApiError");
@@ -55,14 +57,64 @@ class userController {
 
   async check(req, res) {
     const token = generateJwt(req.user._id, req.user.email, req.user.role);
-    return res.json({ token });
+    let redirectUrl;
+    if (req.user.role === "MANAGER") {
+      redirectUrl = "http://localhost:5000/HTML/Manager/profileManager.html";
+    } else if (req.user.role === "ADMIN") {
+      redirectUrl = "http://localhost:5000/HTML/Admin/profileAdmin.html";
+    } else {
+      redirectUrl = "http://localhost:5000/HTML/profilePerson.html";
+    }
+    return res.json({ token, redirectUrl });
+  }
+
+  async addFullNameAndPost(req, res, next) {
+    const { firstName, lastName, middleName, post } = req.body;
+
+    if (!firstName || !middleName || !post) {
+      return next(ApiError.badRequest("Не все данные указаны"));
+    }
+    const userId = req.user.id;
+
+    try {
+      let profile = await Profile.findOne({ userId });
+      if (!profile) {
+        profile = new Profile({ userId });
+      }
+
+      let passenger = await Managers.findOne({ userId });
+      if (!passenger) {
+        passenger = new Managers({
+          userId,
+          firstName,
+          lastName,
+          middleName,
+          post,
+        });
+      } else {
+        passenger.firstName = firstName;
+        passenger.lastName = lastName;
+        passenger.middleName = middleName;
+        passenger.post = post;
+      }
+
+      await passenger.save();
+
+      profile.passengerId = passenger._id;
+
+      await profile.save();
+
+      res.status(201).json({ message: "Данные успешно сохранены" });
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Произошла ошибка при сохранении данных"));
+    }
   }
 
   async addFullNameAndPassport(req, res, next) {
     const { firstName, lastName, middleName, dateOfBirth, passport } = req.body;
 
-    const userId = req.user.id;
-    if (!firstName || !lastName || !dateOfBirth || !passport) {
+    if (!firstName || !lastName || !passport) {
       return next(ApiError.badRequest("Не все данные указаны"));
     }
 
@@ -72,20 +124,16 @@ class userController {
       return next(ApiError.badRequest("Не все данные паспорта указаны"));
     }
 
-    try {
-      // Проверяем существование записи профиля
-      let profile = await Profile.findOne({ userId });
+    const userId = req.user.id;
 
+    try {
+      let profile = await Profile.findOne({ userId });
       if (!profile) {
-        // Если записи профиля нет, создаем новую
         profile = new Profile({ userId });
       }
 
-      // Проверяем существование пассажира
       let passenger = await Passenger.findOne({ userId });
-
       if (!passenger) {
-        // Если пассажира нет, создаем нового
         passenger = new Passenger({
           userId,
           firstName,
@@ -94,23 +142,18 @@ class userController {
           dateOfBirth,
         });
       } else {
-        // Если пассажир существует, обновляем его данные
         passenger.firstName = firstName;
         passenger.lastName = lastName;
         passenger.middleName = middleName;
         passenger.dateOfBirth = dateOfBirth;
       }
 
-      // Сохраняем или обновляем пассажира
       await passenger.save();
 
-      // Проверяем существование паспорта
       let passportData = await PassportData.findOne({
         passengerId: passenger._id,
       });
-
       if (!passportData) {
-        // Если паспорта нет, создаем новый
         passportData = new PassportData({
           passengerId: passenger._id,
           series,
@@ -119,21 +162,17 @@ class userController {
           issuedBy,
         });
       } else {
-        // Если паспорт существует, обновляем его данные
         passportData.series = series;
         passportData.number = number;
         passportData.divisionCode = divisionCode;
         passportData.issuedBy = issuedBy;
       }
 
-      // Сохраняем или обновляем паспорт
       await passportData.save();
 
-      // Обновляем данные в профиле
       profile.passengerId = passenger._id;
       profile.passportId = passportData._id;
 
-      // Сохраняем или обновляем профиль
       await profile.save();
 
       res.status(201).json({ message: "Данные успешно сохранены" });
@@ -169,6 +208,32 @@ class userController {
           number: passport.number,
           divisionCode: passport.divisionCode,
           issuedBy: passport.issuedBy,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      next(
+        ApiError.internal("Произошла ошибка при получении профиля пользователя")
+      );
+    }
+  }
+
+  async getManagerProfile(req, res, next) {
+    const userId = req.user.id;
+
+    try {
+      const manager = await Managers.findOne({ userId }).populate("userId");
+
+      if (!manager) {
+        return next(ApiError.notFound("Профиль пользователя не найден"));
+      }
+
+      res.json({
+        user: {
+          post: manager.post,
+          firstName: manager.firstName,
+          lastName: manager.lastName,
+          middleName: manager.middleName,
         },
       });
     } catch (error) {

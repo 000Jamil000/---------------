@@ -20,31 +20,39 @@
           </div>
           <hr />
           <div class="main">
-            <form action="">
+            <form id="personDataManager">
               <div class="inputDataAboutPerson">
                 <div class="name">
-                  <label for="">Имя</label>
-                  <input type="text" placeholder="Иван" />
+                  <label for="name">Имя</label>
+                  <input type="text" placeholder="Иван" id="name" required />
                 </div>
                 <div class="lastname">
-                  <label for="">Фамилия</label>
-                  <input type="text" placeholder="Иванов" />
+                  <label for="middleName">Фамилия</label>
+                  <input
+                    type="text"
+                    placeholder="Иванов"
+                    id="middleName"
+                    required
+                  />
                 </div>
               </div>
-
               <div class="inputDataAboutPerson1">
-                <label for="">Отчество</label>
-                <input type="text" placeholder="Иванович" />
+                <label for="lastName">Отчество</label>
+                <input
+                  type="text"
+                  placeholder="Иванович"
+                  id="lastName"
+                  required
+                />
               </div>
               <div class="inputDataAboutPerson1">
-                <label for="">Должность</label>
-                <input type="text" />
+                <label for="email">Должность</label>
+                <input type="text" id="post" value="Менеджер" disabled />
+              </div>
+              <div class="footer">
+                <button type="submit" class="saveData">Сохранить</button>
               </div>
             </form>
-          </div>
-          <div class="footer">
-            <button class="cancel">Отмена</button>
-            <button class="saveData">Сохранить</button>
           </div>
         </div>
       </div>
@@ -68,5 +76,6 @@
         <img src="../assets/Pilot(1).png" alt="" title="" />
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   </body>
 </html>

@@ -27,64 +27,71 @@
                 Уже зарегистрированы? <a href="./Autorization.html">Войти</a>
               </p>
             </div>
-            <div class="main">
+            <div>
               <form id="registrationForm">
-                <div class="inputDataPerson">
-                  <label for="email">Ваш email</label>
-                  <input type="email" id="email" required />
+                <div class="main">
+                  <div class="inputDataPerson">
+                    <label for="email">Ваш email</label>
+                    <input type="email" id="email" required />
+                  </div>
+                  <div class="inputDataPerson">
+                    <label for="passwordOne">Пароль</label>
+                    <input
+                      type="password"
+                      id="passwordOne"
+                      class="password"
+                      required
+                    />
+                    <a
+                      href="#"
+                      class="password-control"
+                      onclick="return show_hide_password(this, 'passwordOne');"
+                    ></a>
+                  </div>
+                  <div class="inputDataPerson">
+                    <label for="passwordTwo">Повторите пароль</label>
+                    <input
+                      type="password"
+                      id="passwordTwo"
+                      class="password"
+                      required
+                    />
+                    <a
+                      href="#"
+                      class="password-control"
+                      onclick="return show_hide_password(this, 'passwordTwo');"
+                    ></a>
+                  </div>
+
+                  <div id="errorMessage"></div>
                 </div>
-                <div class="inputDataPerson">
-                  <label for="passwordOne">Пароль</label>
-                  <input
-                    type="password"
-                    id="passwordOne"
-                    class="password"
-                    required
-                  />
-                  <a
-                    href="#"
-                    class="password-control"
-                    onclick="return show_hide_password(this, 'passwordOne');"
-                  ></a>
+                <div class="beforeFooter">
+                  <hr />
+                  <p>ИЛИ</p>
+                  <hr />
                 </div>
-                <div class="inputDataPerson">
-                  <label for="passwordTwo">Повторите пароль</label>
-                  <input
-                    type="password"
-                    id="passwordTwo"
-                    class="password"
-                    required
-                  />
-                  <a
-                    href="#"
-                    class="password-control"
-                    onclick="return show_hide_password(this, 'passwordTwo');"
-                  ></a>
+                <div class="footer">
+                  <div class="btn">
+                    <button class="googleEntry">
+                      <img
+                        src="./assets/Google_logo.png"
+                        alt="Google"
+                        class="googleLogo"
+                      />
+                      Войти через GOOGLE
+                    </button>
+                  </div>
+                  <div class="btn">
+                    <button
+                      type="submit"
+                      class="createAccount"
+                      id="registerButton"
+                    >
+                      Зарегистрироваться
+                    </button>
+                  </div>
                 </div>
               </form>
-              <div id="errorMessage"></div>
-            </div>
-            <div class="beforeFooter">
-              <hr />
-              <p>ИЛИ</p>
-              <hr />
-            </div>
-            <div class="footer">
-              <div class="btn">
-                <button class="googleEntry">
-                  <img
-                    src="./assets/Google_logo.png"
-                    alt="Google"
-                    class="googleLogo"
-                  />
-                  Войти через GOOGLE
-                </button>
-              </div>
-              <div class="btn">
-                <button type="submit" class="createAccount" id="registerButton">
-                  Зарегистрироваться
-                </button>
-              </div>
             </div>
           </div>
         </div>

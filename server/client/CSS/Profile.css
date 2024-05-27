@@ -28,7 +28,7 @@ body {
 .logoAndNameCompany {
   display: flex;
   align-items: center;
-  height: 100px;
+  height: 80px;
   margin-bottom: 20px;
 }
 
@@ -54,7 +54,7 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 input::placeholder {
@@ -208,6 +208,29 @@ h3 {
   border-radius: 8px;
   cursor: pointer;
   margin-left: 10px;
+}
+
+.deleteBtn {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: #d4eefa;
+  color: red;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.deleteBtn img {
+  margin-right: 20px;
+  margin-left: 5px;
+}
+
+.deleteBtn:hover {
+  background-color: #ffffff;
 }
 
 .settingsBtn img {
