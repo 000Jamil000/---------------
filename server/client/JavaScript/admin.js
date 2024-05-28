@@ -1,15 +1,108 @@
-const profileBtn = document.getElementById("profileBtn");
-const settingsBtn = document.getElementById("settingsBtn");
+const profileAdminBtn = document.getElementById("profileAdminBtn");
+const accessSettingsBtn = document.getElementById("accessSettingsBtn");
 
 function redirectToProfileAdmin() {
-  window.location.href =
-    "http://127.0.0.1:5501/client/HTML/Manager/profileAdmin.html";
+  window.location.href = "http://localhost:5000/HTML/Admin/profileAdmin.html";
 }
 
 function redirectToAccessSettings() {
-  window.location.href =
-    "http://127.0.0.1:5501/client/HTML/Manager/accessSettings.html";
+  window.location.href = "http://localhost:5000/HTML/Admin/accessSettings.html";
 }
 
-profileBtn.addEventListener("click", redirectToProfileAdmin);
-settingsBtn.addEventListener("click", redirectToAccessSettings);
+profileAdminBtn.addEventListener("click", redirectToProfileAdmin);
+accessSettingsBtn.addEventListener("click", redirectToAccessSettings);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const personDataManager = document.getElementById("personDataManager");
+
+  // Получение токена из localStorage
+  const token = localStorage.getItem("token");
+
+  // Функция для получения данных профиля пользователя
+  async function fetchAdminProfile() {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/user/getInfoAdmin",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Ошибка при получении данных профиля");
+      }
+
+      const data = await response.json();
+      populateProfileForm(data);
+    } catch (error) {
+      console.error("Произошла ошибка:", error);
+    }
+  }
+
+  // Функция для заполнения формы данными профиля
+  function populateProfileForm(data) {
+    document.getElementById("name").value = data.user.firstName;
+    document.getElementById("middleName").value = data.user.lastName;
+    document.getElementById("lastName").value = data.user.middleName;
+    document.getElementById("post").value = data.user.post;
+  }
+
+  // Вызов функции для получения профиля при загрузке страницы
+  fetchAdminProfile();
+
+  if (personDataManager) {
+    personDataManager.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const firstName = document.getElementById("name").value;
+      const middleName = document.getElementById("middleName").value;
+      const lastName = document.getElementById("lastName").value;
+      const post = document.getElementById("post").value;
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/user/newDataAdmin",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              firstName,
+              middleName,
+              lastName,
+              post,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Ошибка при сохранении данных");
+        } else {
+          const data = await response.json();
+          console.log("Данные успешно сохранены", data);
+        }
+      } catch (error) {
+        console.error("Произошла ошибка:", error);
+      }
+    });
+  }
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/user/logout", {
+        method: "POST",
+      });
+      const result = await response.json();
+      alert(result.message);
+      localStorage.removeItem("token");
+      window.location.href = "http://localhost:5000/HTML/index.html";
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  });
+});

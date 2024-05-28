@@ -6,13 +6,14 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../CSS/Profile.css" />
     <script src="../../JavaScript/admin.js" defer></script>
+    <script src="../../JavaScript/accessSettings.js" defer></script>
   </head>
   <body>
     <div class="container">
       <div class="left-column">
         <div class="logoAndNameCompany">
           <img src="../assets/logo.png" alt="Sorry" class="logo" />
-          <a href="../index.html">GoodBye</a>
+          <a href="http://localhost:5000/HTML/index.html">GoodBye</a>
         </div>
         <div class="profile-container">
           <div class="header">
@@ -20,33 +21,46 @@
           </div>
           <hr />
           <div class="main">
-            <form action="">
+            <form id="giveAccess">
               <div class="inputDataAboutPerson">
                 <div class="name">
-                  <label for="">Введите ФИО менеджера</label>
-                  <input type="text" placeholder="Иванов Иван Иванович" />
+                  <label>Введите email менеджера</label>
+                  <input
+                    type="text"
+                    id="emailInput"
+                    list="userEmails"
+                    placeholder="jamil-2017@mail.ru"
+                  />
+                  <datalist id="userEmails"></datalist>
                 </div>
               </div>
+              <div class="footer">
+                <button type="button" id="giveAccessBtn" class="cancel">
+                  Дать доступ
+                </button>
+                <button type="button" id="deleteManagerBtn" class="saveData">
+                  Удалить сотрудника
+                </button>
+              </div>
             </form>
-          </div>
-          <div class="footer">
-            <button class="cancel">Дать доступ</button>
-            <button class="saveData">Удалить сотрудника</button>
           </div>
         </div>
       </div>
       <div class="right-column">
         <div class="menu-container">
           <div>
-            <button class="profileBtn" id="profileBtn">
-              <img src="../assets/profile_icon.svg" alt="" />
-              Профиль
+            <button class="profileBtn" id="profileAdminBtn">
+              <img src="../assets/profile_icon.svg" alt="" /> Профиль
             </button>
           </div>
           <div>
             <button class="settingsBtn" id="settingsBtn">
-              <img src="../assets/setting_icon.svg" alt="" />
-              Настройки доступа
+              <img src="../assets/setting_icon.svg" alt="" /> Настройки доступа
+            </button>
+          </div>
+          <div>
+            <button class="deleteBtn" id="logoutBtn">
+              <img src="../assets/exit.png" alt="" /> Выйти из аккаунта
             </button>
           </div>
         </div>

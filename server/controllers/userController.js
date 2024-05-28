@@ -3,9 +3,8 @@ const User = require("../models/User");
 const Profile = require("../models/Profile");
 const Passenger = require("../models/Passenger");
 const Managers = require("../models/Managers");
-
+const Admin = require("../models/Admin");
 const PassportData = require("../models/PassportData");
-
 const ApiError = require("../error/ApiError");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -54,6 +53,9 @@ class userController {
     const token = generateJwt(user.id, user.password, user.role);
     return res.json({ token });
   }
+  async logout(req, res) {
+    res.json({ message: "Вы вышли с аккаунта" });
+  }
 
   async check(req, res) {
     const token = generateJwt(req.user._id, req.user.email, req.user.role);
@@ -82,9 +84,9 @@ class userController {
         profile = new Profile({ userId });
       }
 
-      let passenger = await Managers.findOne({ userId });
-      if (!passenger) {
-        passenger = new Managers({
+      let manager = await Managers.findOne({ userId });
+      if (!manager) {
+        manager = new Managers({
           userId,
           firstName,
           lastName,
@@ -92,15 +94,15 @@ class userController {
           post,
         });
       } else {
-        passenger.firstName = firstName;
-        passenger.lastName = lastName;
-        passenger.middleName = middleName;
-        passenger.post = post;
+        manager.firstName = firstName;
+        manager.lastName = lastName;
+        manager.middleName = middleName;
+        manager.post = post;
       }
 
-      await passenger.save();
+      await manager.save();
 
-      profile.passengerId = passenger._id;
+      profile.ManagerId = manager._id;
 
       await profile.save();
 
@@ -241,6 +243,75 @@ class userController {
       next(
         ApiError.internal("Произошла ошибка при получении профиля пользователя")
       );
+    }
+  }
+
+  async getAdminProfile(req, res, next) {
+    const userId = req.user.id;
+
+    try {
+      const admin = await Admin.findOne({ userId }).populate("userId");
+
+      if (!admin) {
+        return next(ApiError.notFound("Профиль пользователя не найден"));
+      }
+
+      res.json({
+        user: {
+          post: admin.post,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
+          middleName: admin.middleName,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      next(
+        ApiError.internal("Произошла ошибка при получении профиля пользователя")
+      );
+    }
+  }
+
+  async addFullNameAndPostAdmin(req, res, next) {
+    const { firstName, lastName, middleName, post } = req.body;
+
+    if (!firstName || !middleName || !post) {
+      return next(ApiError.badRequest("Не все данные указаны"));
+    }
+    const userId = req.user.id;
+
+    try {
+      let profile = await Profile.findOne({ userId });
+      if (!profile) {
+        profile = new Profile({ userId });
+      }
+
+      let admin = await Admin.findOne({ userId });
+      if (!passenger) {
+        admin = new Admin({
+          userId,
+          firstName,
+          lastName,
+          middleName,
+          post,
+        });
+      } else {
+        admin.firstName = firstName;
+        admin.lastName = lastName;
+        admin.middleName = middleName;
+        admin.post = post;
+      }
+
+      await admin.save();
+
+      profile.AdminId = admin._id;
+
+      await profile.save();
+
+      res.status(201).json({ message: "Данные успешно сохранены" });
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Произошла ошибка при сохранении данных"));
     }
   }
 }

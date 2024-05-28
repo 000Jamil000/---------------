@@ -210,6 +210,42 @@ class ticketController {
       next(ApiError.internal("Произошла ошибка при получении списка рейсов"));
     }
   }
+
+  async buyTicket(req, res, next) {
+    const { ticketId } = req.params;
+
+    if (!ticketId) {
+      return next(ApiError.badRequest("Не все данные указаны"));
+    }
+
+    const userId = req.user.id;
+
+    try {
+      // Поиск билета по идентификатору
+      const ticket = await Ticket.findById(ticketId);
+
+      if (!ticket) {
+        return next(ApiError.notFound("Билет не найден"));
+      }
+
+      // Проверка доступности билета
+      if (ticket.status === "BOUGHT") {
+        return next(ApiError.badRequest("Билет уже куплен"));
+      }
+
+      // Обновление данных билета
+      ticket.userId = userId;
+      ticket.seatNumber = seatNumber;
+      ticket.status = "BOUGHT";
+
+      await ticket.save();
+
+      res.json({ message: "Билет успешно куплен", ticket });
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Произошла ошибка при покупке билета"));
+    }
+  }
 }
 
 module.exports = new ticketController();

@@ -1,47 +1,84 @@
-// Функция для сохранения значений полей ввода в localStorage
 function saveToLocalStorage() {
   const departureCity = document.getElementById("cityFrom").value;
   const arrivalCity = document.getElementById("destination").value;
   const departureDate = document.getElementById("departureDate").value;
   const returnDate = document.getElementById("arrivalDate").value;
+  const timestamp = new Date().getTime(); // Время сохранения
 
   localStorage.setItem("departureCity", departureCity);
   localStorage.setItem("arrivalCity", arrivalCity);
   localStorage.setItem("departureDate", departureDate);
   localStorage.setItem("returnDate", returnDate);
+  localStorage.setItem("timestamp", timestamp);
+
+  // Удалить данные через одну минуту
+  setTimeout(clearLocalStorage, 60000);
+}
+
+// Функция для очистки localStorage
+function clearLocalStorage() {
+  localStorage.removeItem("departureCity");
+  localStorage.removeItem("arrivalCity");
+  localStorage.removeItem("departureDate");
+  localStorage.removeItem("returnDate");
+  localStorage.removeItem("timestamp");
 }
 
 // Функция для восстановления значений полей ввода из localStorage
 function loadFromLocalStorage() {
-  const departureCity = localStorage.getItem("departureCity");
-  const arrivalCity = localStorage.getItem("arrivalCity");
-  const departureDate = localStorage.getItem("departureDate");
-  const returnDate = localStorage.getItem("returnDate");
+  const timestamp = localStorage.getItem("timestamp");
+  const currentTime = new Date().getTime();
 
-  if (departureCity) {
-    document.getElementById("cityFrom").value = departureCity;
-  }
-  if (arrivalCity) {
-    document.getElementById("destination").value = arrivalCity;
-  }
-  if (departureDate) {
-    document.getElementById("departureDate").value = departureDate;
-  }
-  if (returnDate) {
-    document.getElementById("arrivalDate").value = returnDate;
+  if (timestamp && currentTime - timestamp < 60000) {
+    // Проверка времени
+    const departureCity = localStorage.getItem("departureCity");
+    const arrivalCity = localStorage.getItem("arrivalCity");
+    const departureDate = localStorage.getItem("departureDate");
+    const returnDate = localStorage.getItem("returnDate");
+
+    if (departureCity) {
+      document.getElementById("cityFrom").value = departureCity;
+    }
+    if (arrivalCity) {
+      document.getElementById("destination").value = arrivalCity;
+    }
+    if (departureDate) {
+      document.getElementById("departureDate").value = departureDate;
+    }
+    if (returnDate) {
+      document.getElementById("arrivalDate").value = returnDate;
+    }
+  } else {
+    clearLocalStorage(); // Очистить устаревшие данные
   }
 }
 
-// Функция для сохранения списка билетов в localStorage
+// Функция для сохранения списка билетов в localStorage с таймером
 function saveTicketsToLocalStorage(tickets) {
+  const timestamp = new Date().getTime();
   localStorage.setItem("tickets", JSON.stringify(tickets));
+  localStorage.setItem("ticketsTimestamp", timestamp);
+
+  // Удалить билеты через одну минуту
+  setTimeout(() => {
+    localStorage.removeItem("tickets");
+    localStorage.removeItem("ticketsTimestamp");
+  }, 60000);
 }
 
 // Функция для восстановления списка билетов из localStorage
 function loadTicketsFromLocalStorage() {
-  const tickets = localStorage.getItem("tickets");
-  if (tickets) {
-    return JSON.parse(tickets);
+  const ticketsTimestamp = localStorage.getItem("ticketsTimestamp");
+  const currentTime = new Date().getTime();
+
+  if (ticketsTimestamp && currentTime - ticketsTimestamp < 60000) {
+    const tickets = localStorage.getItem("tickets");
+    if (tickets) {
+      return JSON.parse(tickets);
+    }
+  } else {
+    localStorage.removeItem("tickets");
+    localStorage.removeItem("ticketsTimestamp");
   }
   return [];
 }

@@ -261,3 +261,43 @@ h3 {
   height: auto;
   vertical-align: bottom;
 }
+
+/* Общие стили для селекта */
+.select-container {
+  position: relative;
+  width: 100%;
+}
+
+.select-container select {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  background-color: #3560cc;
+  color: #fff;
+  padding: 5px;
+  font-size: 18px;
+  -webkit-appearance: none; /* Убираем стандартное отображение селекта */
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Стили для опций в селекте */
+.select-container select option {
+  background-color: #a7a7a7;
+  color: #fff;
+}
+
+/* Стили для фокуса и наведения */
+.select-container select:focus,
+.select-container select:hover {
+  outline: none;
+  border-color: #ffffff;
+}
+
+/* Избегаем выделения текста */
+.select-container select::selection {
+  background-color: transparent;
+  color: inherit;
+}

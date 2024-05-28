@@ -9,14 +9,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
-    <script src="../../JavaScript/manager.js" defer></script>
+    <script src="../../JavaScript/createNewFlight.js" defer></script>
   </head>
   <body>
     <div class="container">
       <div class="left-column">
         <div class="logoAndNameCompany">
           <img src="../assets/logo.png" alt="Sorry" class="logo" />
-          <a href="../index.html">GoodBye</a>
+          <a href="http://localhost:5000/HTML/index.html">GoodBye</a>
         </div>
         <div class="profile-container">
           <div class="header">
@@ -24,21 +24,21 @@
           </div>
           <hr />
           <div class="main">
-            <form action="">
+            <form id="createNewFlight">
               <div class="inputDataAboutPerson">
                 <div class="name">
-                  <label for="">Откуда</label>
-                  <input type="text" placeholder="Казань" />
+                  <label>Откуда</label>
+                  <input type="text" id="departureCity" placeholder="Казань" />
                 </div>
                 <div class="lastname">
-                  <label for="">Куда</label>
-                  <input type="text" placeholder="Москва" />
+                  <label>Куда</label>
+                  <input type="text" id="arrivalCity" placeholder="Москва" />
                 </div>
               </div>
 
               <div class="inputDataAboutPerson">
                 <div class="departureDate">
-                  <label for="">Дата вылета</label>
+                  <label>Дата вылета</label>
                   <input
                     type="text"
                     id="departureDate"
@@ -48,33 +48,60 @@
                     required
                   />
                 </div>
-                <div class="arrivalDate">
-                  <label for="">Дата посадки </label>
+                <div class="name">
+                  <label>Время вылета</label>
+                  <input type="time" id="departureTime" />
+                </div>
+              </div>
+              <div class="inputDataAboutPerson">
+                <div class="lastname">
+                  <label>Время посадки</label>
+                  <input type="time" id="arrivalTime" />
+                </div>
+                <div class="lastname">
+                  <label>Количество билетов</label>
                   <input
-                    type="text"
-                    id="arrivalDate"
-                    name="returnDate"
-                    placeholder="Выберите дату"
-                    data-input
-                    required
+                    type="number"
+                    id="ticketCount"
+                    onkeypress="return isNumberKey(event)"
                   />
                 </div>
               </div>
               <div class="inputDataAboutPerson">
                 <div class="name">
-                  <label for="">Время вылета</label>
-                  <input type="time" />
+                  <label>Номер рейса</label>
+                  <input type="text" id="flightNumber" />
                 </div>
                 <div class="lastname">
-                  <label for="">Время посадки</label>
-                  <input type="time" />
+                  <label>Номер места</label>
+                  <input type="text" id="seatNumber" />
                 </div>
               </div>
+              <div class="inputDataAboutPerson">
+                <div class="name">
+                  <label>Уровень сервиса</label>
+                  <div class="select-container">
+                    <select id="serviceClass">
+                      <option value="Economy">Эконом</option>
+                      <option value="Business" selected>Бизнес</option>
+                      <option value="First">Первый класс</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="name">
+                  <label>Цена</label>
+                  <input
+                    type="number"
+                    id="price"
+                    onkeypress="return isNumberKey(event)"
+                  />
+                </div>
+              </div>
+              <div class="footer">
+                <button type="submit" class="addFlight">Добавить рейс</button>
+                <button type="submit" class="deleteFlight">Удалить рейс</button>
+              </div>
             </form>
-          </div>
-          <div class="footer">
-            <button class="cancel">Добавить рейс</button>
-            <button class="saveData">Удалить рейс</button>
           </div>
         </div>
       </div>
@@ -90,6 +117,11 @@
             <button class="settingsBtn" id="settingsBtn">
               <img src="../assets/setting_icon.svg" alt="" />
               Управление маршрутами
+            </button>
+          </div>
+          <div>
+            <button class="deleteBtn" id="logoutBtn">
+              <img src="../assets/exit.png" alt="" /> Выйти из аккаунта
             </button>
           </div>
         </div>

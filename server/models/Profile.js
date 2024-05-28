@@ -22,6 +22,11 @@ const ProfileSchema = new mongoose.Schema(
       ref: "Manager",
       required: false,
     },
+    AdminId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Admin",
+      required: false,
+    },
   },
   {
     timestamps: true,

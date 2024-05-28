@@ -93,4 +93,17 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/user/logout", {
+        method: "POST",
+      });
+      const result = await response.json();
+      alert(result.message);
+      localStorage.removeItem("token");
+      window.location.href = "http://localhost:5000/HTML/index.html";
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  });
 });
