@@ -195,3 +195,88 @@ button {
   margin-top: 10px;
   width: 150px;
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#seatSelection {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+#seatSelection .seat {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+#seatSelection .seat.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+#paymentForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#paymentForm label {
+  margin-top: 10px;
+}
+
+#paymentForm input {
+  margin-bottom: 10px;
+}
+
+.seat-button {
+  margin: 5px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.seat-button:hover {
+  background-color: #0056b3;
+}
+
+.seat-button.selected {
+  background-color: #28a745;
+  cursor: default;
+}

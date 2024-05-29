@@ -17,6 +17,7 @@ router.post(
   authMiddleware,
   userController.addFullNameAndPostAdmin
 );
+router.delete("/deleteUser", authMiddleware, userController.deleteUser);
 router.get("/auth", authMiddleware, userController.check);
 router.get("/getInfoPerson", authMiddleware, userController.getUserProfile);
 router.get("/getInfoManager", authMiddleware, userController.getManagerProfile);

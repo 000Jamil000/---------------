@@ -211,39 +211,72 @@ class ticketController {
     }
   }
 
-  async buyTicket(req, res, next) {
-    const { ticketId } = req.params;
-
-    if (!ticketId) {
-      return next(ApiError.badRequest("Не все данные указаны"));
-    }
-
-    const userId = req.user.id;
-
+  async getAvailableSeats(req, res, next) {
+    const { flightId } = req.query;
     try {
-      // Поиск билета по идентификатору
-      const ticket = await Ticket.findById(ticketId);
-
-      if (!ticket) {
-        return next(ApiError.notFound("Билет не найден"));
-      }
-
-      // Проверка доступности билета
-      if (ticket.status === "BOUGHT") {
-        return next(ApiError.badRequest("Билет уже куплен"));
-      }
-
-      // Обновление данных билета
-      ticket.userId = userId;
-      ticket.seatNumber = seatNumber;
-      ticket.status = "BOUGHT";
-
-      await ticket.save();
-
-      res.json({ message: "Билет успешно куплен", ticket });
+      const availableSeats = await Ticket.find({
+        flightId,
+        isPurchased: false,
+      }).select("seatNumber _id");
+      res.json({ seats: availableSeats });
     } catch (error) {
       console.error(error);
-      next(ApiError.internal("Произошла ошибка при покупке билета"));
+      next(ApiError.internal("Ошибка при получении мест"));
+    }
+  }
+
+  async purchaseTicket(req, res, next) {
+    const { ticketId } = req.body;
+    try {
+      console.log("Current User:", req.user._id); // Debug: Log the user object
+
+      const ticket = await Ticket.findById(ticketId);
+      if (!ticket) {
+        return next(ApiError.badRequest("Билет не найден"));
+      }
+      if (ticket.isPurchased) {
+        return next(ApiError.badRequest("Билет уже куплен"));
+      }
+      const userId = req.user.id;
+
+      ticket.isPurchased = true;
+      ticket.userId = userId;
+
+      const updatedTicket = await Ticket.findByIdAndUpdate(
+        ticketId,
+        {
+          isPurchased: true,
+          userId: req.user._id,
+        },
+        { new: true }
+      );
+      console.log("Updated Ticket:", updatedTicket); // Debug: Log the updated ticket
+
+      res.json({ message: "Билет успешно куплен" });
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Ошибка при покупке билета"));
+    }
+  }
+
+  async getUserTickets(req, res, next) {
+    try {
+      const userId = req.user._id; // Получаем ID пользователя из токена
+
+      let tickets = await Ticket.find({ userId }).populate({
+        path: "flightId",
+        select:
+          "departureCity arrivalCity departureDate departureTime arrivalTime flightNumber serviceClass",
+      });
+
+      if (!tickets || tickets.length === 0) {
+        return next(ApiError.badRequest("Билеты не найдены"));
+      }
+
+      res.json({ tickets });
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Ошибка при получении билетов"));
     }
   }
 }

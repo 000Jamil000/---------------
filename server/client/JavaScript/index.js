@@ -3,7 +3,7 @@ function saveToLocalStorage() {
   const arrivalCity = document.getElementById("destination").value;
   const departureDate = document.getElementById("departureDate").value;
   const returnDate = document.getElementById("arrivalDate").value;
-  const timestamp = new Date().getTime(); // Время сохранения
+  const timestamp = new Date().getTime();
 
   localStorage.setItem("departureCity", departureCity);
   localStorage.setItem("arrivalCity", arrivalCity);
@@ -12,7 +12,7 @@ function saveToLocalStorage() {
   localStorage.setItem("timestamp", timestamp);
 
   // Удалить данные через одну минуту
-  setTimeout(clearLocalStorage, 60000);
+  setTimeout(clearLocalStorage, 30000);
 }
 
 // Функция для очистки localStorage
@@ -49,11 +49,10 @@ function loadFromLocalStorage() {
       document.getElementById("arrivalDate").value = returnDate;
     }
   } else {
-    clearLocalStorage(); // Очистить устаревшие данные
+    clearLocalStorage();
   }
 }
 
-// Функция для сохранения списка билетов в localStorage с таймером
 function saveTicketsToLocalStorage(tickets) {
   const timestamp = new Date().getTime();
   localStorage.setItem("tickets", JSON.stringify(tickets));
@@ -99,11 +98,10 @@ const arrivalDate = flatpickr("#arrivalDate", {
     saveToLocalStorage();
   },
 });
-
 document.addEventListener("DOMContentLoaded", function () {
-  loadFromLocalStorage(); // Восстановление значений при загрузке страницы
+  loadFromLocalStorage();
 
-  const savedTickets = loadTicketsFromLocalStorage(); // Восстановление списка билетов
+  const savedTickets = loadTicketsFromLocalStorage();
   if (savedTickets.length > 0) {
     displayTickets(savedTickets);
   }
@@ -113,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     searchForm.addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      saveToLocalStorage(); // Сохранение значений при отправке формы
+      saveToLocalStorage();
 
       const departureCity = document.getElementById("cityFrom").value;
       const arrivalCity = document.getElementById("destination").value;
@@ -139,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (response.ok) {
           const data = await response.json();
-          saveTicketsToLocalStorage(data.tickets); // Сохранение билетов
+          saveTicketsToLocalStorage(data.tickets);
           displayTickets(data.tickets);
         } else {
           console.error("Ошибка при получении билетов");
@@ -177,25 +175,195 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="price-and-buy">
             <p>${ticket.price}$</p>
-            <button>Купить</button>
+            <button class="buyButton" data-ticket-id="${
+              ticket._id
+            }" data-flight-id="${ticket.flightId._id}">Купить</button>
           </div>
         </div>
       `;
       ticketList.appendChild(ticketElement);
     });
+
+    document.querySelectorAll(".buyButton").forEach((button) => {
+      button.addEventListener("click", async function () {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            throw new Error("No token found");
+          }
+          const response = await fetch("http://localhost:5000/api/user/auth", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          if (response.ok) {
+            const ticketId = this.dataset.ticketId;
+            const flightId = this.dataset.flightId;
+            openModal(ticketId, flightId);
+          } else {
+            window.location.href =
+              "http://localhost:5000/HTML/Autorization.html";
+          }
+        } catch (error) {
+          console.error("Произошла ошибка:", error);
+          window.location.href = "http://localhost:5000/HTML/Autorization.html";
+        }
+      });
+    });
   }
 
-  // Сохранение значений при изменении полей ввода
+  const modal = document.getElementById("ticketModal");
+  const span = document.getElementsByClassName("close")[0];
+
+  function openModal(ticketId, flightId) {
+    modal.style.display = "block";
+    loadSeats(flightId);
+    document.getElementById("confirmPurchase").dataset.ticketId = ticketId;
+  }
+
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  async function loadSeats(flightId) {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `http://localhost:5000/api/ticket/seats?flightId=${flightId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Ошибка при загрузке мест");
+      }
+
+      const data = await response.json();
+      console.log("Места загружены:", data);
+      renderSeats(data.seats); // Передаем данные на рендеринг
+    } catch (error) {
+      console.error("Ошибка при получении мест", error);
+    }
+  }
+
+  let selectedSeatId = null;
+
+  const renderSeats = (seats) => {
+    const seatsContainer = document.getElementById("seats-container"); // Ваш контейнер для мест
+    seatsContainer.innerHTML = ""; // Очистка контейнера перед добавлением новых элементов
+
+    seats.forEach((seat) => {
+      const button = document.createElement("button");
+      button.textContent = `Место ${seat.seatNumber}`;
+      button.className = "seat-button";
+      button.dataset.seatId = seat._id;
+      button.addEventListener("click", function () {
+        document
+          .querySelectorAll(".seat-button")
+          .forEach((btn) => btn.classList.remove("selected"));
+        button.classList.add("selected");
+        selectedSeatId = seat._id;
+      });
+      seatsContainer.appendChild(button);
+    });
+  };
+
   document
-    .getElementById("cityFrom")
-    .addEventListener("input", saveToLocalStorage);
-  document
-    .getElementById("destination")
-    .addEventListener("input", saveToLocalStorage);
-  document
-    .getElementById("departureDate")
-    .addEventListener("input", saveToLocalStorage);
-  document
-    .getElementById("arrivalDate")
-    .addEventListener("input", saveToLocalStorage);
+    .getElementById("confirmPurchase")
+    .addEventListener("click", async function () {
+      const ticketId = this.dataset.ticketId;
+      const cardNumber = document.getElementById("cardNumber").value;
+
+      if (!selectedSeatId) {
+        alert("Выберите место");
+        return;
+      }
+
+      if (!cardNumber) {
+        alert("Введите номер карты");
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          `http://localhost:5000/api/ticket/purchase`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              ticketId: ticketId,
+            }),
+          }
+        );
+
+        if (response.ok) {
+          alert("Покупка прошла успешно");
+          modal.style.display = "none";
+          updateTicketStatus(ticketId);
+        } else {
+          alert("На один рейс, можно купить только один билет");
+        }
+      } catch (error) {
+        console.error("Произошла ошибка:", error);
+      }
+    });
+
+  function updateTicketStatus(ticketId) {
+    const tickets = loadTicketsFromLocalStorage();
+    const updatedTickets = tickets.map((ticket) => {
+      if (ticket._id === ticketId) {
+        ticket.isPurchased = true;
+      }
+      return ticket;
+    });
+    saveTicketsToLocalStorage(updatedTickets);
+    displayTickets(updatedTickets);
+  }
+
+  // function saveToLocalStorage() {
+  //   const formData = {
+  //     departureCity: document.getElementById("cityFrom").value,
+  //     arrivalCity: document.getElementById("destination").value,
+  //     departureDate: document.getElementById("departureDate").value,
+  //     returnDate: document.getElementById("arrivalDate").value,
+  //   };
+  //   localStorage.setItem("formData", JSON.stringify(formData));
+  // }
+
+  // function loadFromLocalStorage() {
+  //   const formData = JSON.parse(localStorage.getItem("formData"));
+  //   if (formData) {
+  //     document.getElementById("cityFrom").value = formData.departureCity;
+  //     document.getElementById("destination").value = formData.arrivalCity;
+  //     document.getElementById("departureDate").value = formData.departureDate;
+  //     document.getElementById("arrivalDate").value = formData.returnDate;
+  //   }
+  // }
+
+  // function saveTicketsToLocalStorage(tickets) {
+  //   localStorage.setItem("tickets", JSON.stringify(tickets));
+  // }
+
+  // function loadTicketsFromLocalStorage() {
+  //   return JSON.parse(localStorage.getItem("tickets")) || [];
+  // }
 });
