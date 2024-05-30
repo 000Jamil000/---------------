@@ -76,6 +76,7 @@ class userController {
     if (!firstName || !middleName || !post) {
       return next(ApiError.badRequest("Не все данные указаны"));
     }
+    const userId = req.user.id;
 
     try {
       let profile = await Profile.findOne({ userId });
@@ -125,7 +126,7 @@ class userController {
       return next(ApiError.badRequest("Не все данные паспорта указаны"));
     }
 
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     try {
       let profile = await Profile.findOne({ userId });

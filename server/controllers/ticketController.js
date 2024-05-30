@@ -1,5 +1,6 @@
 const Ticket = require("../models/Ticket");
 const Flight = require("../models/Flight");
+const User = require("../models/User");
 const ApiError = require("../error/ApiError");
 
 class ticketController {
@@ -227,35 +228,30 @@ class ticketController {
 
   async purchaseTicket(req, res, next) {
     const { ticketId } = req.body;
+    const userId = req.user.id;
+
     try {
-      console.log("Current User:", req.user._id); // Debug: Log the user object
+      console.log("Current User:", req.user);
 
       const ticket = await Ticket.findById(ticketId);
       if (!ticket) {
         return next(ApiError.badRequest("Билет не найден"));
       }
+
       if (ticket.isPurchased) {
         return next(ApiError.badRequest("Билет уже куплен"));
       }
-      const userId = req.user.id;
 
-      ticket.isPurchased = true;
+      // Обновление состояния билета и места
       ticket.userId = userId;
+      ticket.isPurchased = true;
 
-      const updatedTicket = await Ticket.findByIdAndUpdate(
-        ticketId,
-        {
-          isPurchased: true,
-          userId: req.user._id,
-        },
-        { new: true }
-      );
-      console.log("Updated Ticket:", updatedTicket); // Debug: Log the updated ticket
+      await ticket.save();
 
-      res.json({ message: "Билет успешно куплен" });
+      res.json({ message: "Покупка успешна" });
     } catch (error) {
       console.error(error);
-      next(ApiError.internal("Ошибка при покупке билета"));
+      next(ApiError.internal("Произошла ошибка при покупке билета"));
     }
   }
 
