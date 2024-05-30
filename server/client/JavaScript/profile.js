@@ -1,3 +1,17 @@
+const profileBtn = document.getElementById("profileBtn");
+const myTicket = document.getElementById("myTicket");
+
+function redirectToProfile() {
+  window.location.href = "http://localhost:5000/HTML/profilePerson.html";
+}
+
+function redirectToMyTicket() {
+  window.location.href = "http://localhost:5000/HTML/myTicket.html";
+}
+
+profileBtn.addEventListener("click", redirectToProfile);
+myTicket.addEventListener("click", redirectToMyTicket);
+
 document.addEventListener("DOMContentLoaded", function () {
   const personData = document.getElementById("personData");
 
@@ -104,6 +118,34 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "http://localhost:5000/HTML/index.html";
     } catch (error) {
       console.error("Error logging out:", error);
+    }
+  });
+  const deleteBtn = document.getElementById("deleteBtn");
+  deleteBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/user/deleteUser",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            token,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Ошибка при удалении аккаунта");
+      } else {
+        const data = await response.json();
+        console.log("Аккаунт успешно удален", data);
+        localStorage.removeItem("token");
+        window.location.href = "http://localhost:5000/HTML/index.html";
+      }
+    } catch (error) {
+      console.error("Произошла ошибка при удалении аккаунта:", error);
     }
   });
 });

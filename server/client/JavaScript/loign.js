@@ -11,8 +11,16 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       body: JSON.stringify({ email, password }),
     });
 
+    if (response.status === 404) {
+      // Пользователь не найден
+      alert("Пользователь не найден");
+      window.location.href = "http://localhost:5000/HTML/Registration.html";
+      return;
+    }
+
     if (!response.ok) {
-      throw new Error("Ошибка входа");
+      // Другие ошибки
+      throw new Error("Ошибка при входе");
     }
 
     const data = await response.json();

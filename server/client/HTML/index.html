@@ -65,7 +65,6 @@
                 name="returnDate"
                 placeholder="Выберите дату"
                 data-input
-                required
               />
             </div>
             <div class="BtnSearch">
@@ -81,10 +80,26 @@
         </div>
         <div id="ticketList"></div>
       </div>
-      <div class="footer">
-        <!-- <img src="./assets/the wing of the aircraft.png" alt="" /> -->
-      </div>
+      <div class="footer"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <div id="ticketModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Выбор места и оплата</h2>
+        <div id="seats-container"></div>
+        <form id="paymentForm">
+          <p>Способ оплаты</p>
+          <p><input type="checkbox" name="" id="" /> Credit card</p>
+          <label for="cardNumber">Номер карты:</label>
+          <input type="text" id="cardNumber" name="cardNumber" required />
+          <label for="cardNumber">Дата</label>
+          <input type="date" />
+          <label for="cardNumber">CVV</label>
+          <input type="number" />
+          <button type="button" id="confirmPurchase">Купить билет</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

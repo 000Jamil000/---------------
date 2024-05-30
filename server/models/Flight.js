@@ -31,6 +31,12 @@ const FlightSchema = new mongoose.Schema(
       enum: ["Economy", "Business", "First"],
       required: true,
     },
+    tickets: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Ticket",
+      },
+    ],
   },
   {
     timestamps: true,

@@ -41,7 +41,7 @@ class userController {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return next(ApiError.intenal("Пользователь не зарегистрирован"));
+      return next(ApiError.badRequest("Пользователь не зарегистрирован"));
     }
 
     let comparePassword = bcrypt.compareSync(password, user.password);
@@ -126,7 +126,7 @@ class userController {
       return next(ApiError.badRequest("Не все данные паспорта указаны"));
     }
 
-    const userId = req.user.id;
+    const userId = req.user._id;
 
     try {
       let profile = await Profile.findOne({ userId });
@@ -312,6 +312,40 @@ class userController {
     } catch (error) {
       console.error(error);
       next(ApiError.internal("Произошла ошибка при сохранении данных"));
+    }
+  }
+
+  async deleteUser(req, res, next) {
+    const userId = req.user.id;
+    try {
+      await Profile.deleteOne({ userId: userId });
+
+      await User.deleteOne({ _id: userId });
+
+      const passenger = await Passenger.findOne({ userId: userId });
+      if (passenger) {
+        const passport = await PassportData.findOne({
+          passengerId: passenger._id,
+        });
+        if (passport) {
+          await PassportData.deleteOne({ _id: passport._id });
+        }
+        await Passenger.deleteOne({ _id: passenger._id });
+      }
+
+      console.log("Данные пользователя удалены успешно.");
+      res.json({ message: "Данные пользователя удалены успешно." });
+    } catch (error) {
+      console.error(
+        "Произошла ошибка при удалении данных пользователя:",
+        error
+      );
+      return next(
+        ApiError.badRequest(
+          "Произошла ошибка при удалении данных пользователя:",
+          error
+        )
+      );
     }
   }
 }

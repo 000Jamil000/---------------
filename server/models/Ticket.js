@@ -19,21 +19,15 @@ const TicketSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    status: {
-      type: String,
-      enum: ["WAITING", "CANCELLED", "BOUGHT"],
-      default: "WAITING",
+    isPurchased: {
+      type: Boolean,
+      default: false,
     },
   },
   {
     timestamps: true,
   }
 );
-
-TicketSchema.pre("remove", async function (next) {
-  await mongoose.model("Flight").findByIdAndDelete(this.flightId);
-  next();
-});
 
 const Ticket = mongoose.model("Ticket", TicketSchema);
 module.exports = Ticket;
