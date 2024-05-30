@@ -257,7 +257,7 @@ class ticketController {
 
   async getUserTickets(req, res, next) {
     try {
-      const userId = req.user._id; // Получаем ID пользователя из токена
+      const userId = req.user.id;
 
       let tickets = await Ticket.find({ userId }).populate({
         path: "flightId",
