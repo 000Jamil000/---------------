@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Managers = require("../models/Managers");
 const ApiError = require("../error/ApiError");
 
 class AdminController {
@@ -50,6 +51,33 @@ class AdminController {
     } catch (error) {
       console.error(error);
       next(ApiError.internal("Произошла ошибка при поиске пользователей"));
+    }
+  }
+
+  async getManagers(req, res, next) {
+    try {
+      const managers = await User.find({ role: "MANAGER" }).lean();
+      const managerDetails = await Managers.find({
+        userId: { $in: managers.map((user) => user._id) },
+      }).lean();
+
+      const result = managers.map((user) => {
+        const managerDetail = managerDetails.find(
+          (manager) => manager.userId.toString() === user._id.toString()
+        );
+
+        return {
+          email: user.email,
+          firstName: managerDetail?.firstName || "",
+          lastName: managerDetail?.lastName || "",
+          middleName: managerDetail?.middleName || "",
+        };
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error(error);
+      next(ApiError.internal("Ошибка при получении менеджеров"));
     }
   }
 }

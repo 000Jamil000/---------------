@@ -1,0 +1,19 @@
+#managersContainer {
+  margin-top: 20px;
+}
+
+#managersTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#managersTable th,
+#managersTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#managersTable th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
